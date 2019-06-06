@@ -794,13 +794,13 @@ class HTTP
 
             /** @var \SimpleSAML_Configuration $appcfg */
             $appcfg = $cfg->getConfigItem('application', null);
-            $appurl = ($appcfg instanceof \SimpleSAML_Configuration) ? $appcfg->getString('baseURL', '') : '';
+            $appurl = ($appcfg instanceof \SimpleSAML_Configuration) ? $appcfg->getString('baseurlpath', '') : '';
             if (!empty($appurl)) {
                 $protocol = parse_url($appurl, PHP_URL_SCHEME);
-                $hostname = parse_url($appurl, PHP_URL_HOST);
-                $port = parse_url($appurl, PHP_URL_PORT);
+                global $CFG;
+                $hostname = parse_url($CFG->wwwroot, PHP_URL_HOST);
+                $port = '';
                 $port = !empty($port) ? ':'.$port : '';
-
             } else { // no base URL specified for app, just use the current URL
                 $protocol = 'http';
                 $protocol .= (self::getServerHTTPS()) ? 's' : '';
